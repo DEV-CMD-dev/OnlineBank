@@ -1,7 +1,15 @@
+using Bank.Pages.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+string connStr = builder.Configuration.GetConnectionString("LocalDb") ?? throw new Exception("Connection string not found");
+
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services.AddDbContext<BankDbContext>(options => options.UseSqlServer(connStr));
 
 var app = builder.Build();
 

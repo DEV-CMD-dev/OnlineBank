@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Bank.Pages.Data.Structs
+namespace OnlineBank.Data.Structs
 {
     public readonly struct CardCVV
     {
@@ -8,7 +8,7 @@ namespace Bank.Pages.Data.Structs
 
         public CardCVV(string value)
         {
-            if (!Regex.IsMatch(value, @"^/d{3}$"))
+            if (!Regex.IsMatch(value, @"^\d{3}$"))
                 throw new Exception("Wrong CVV format!");
             Value = value;
         }

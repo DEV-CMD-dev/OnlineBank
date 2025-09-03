@@ -1,4 +1,4 @@
-﻿namespace Bank.Pages.Data.Enums
+﻿namespace OnlineBank.Data.Enums
 {
     public enum CardType
     {

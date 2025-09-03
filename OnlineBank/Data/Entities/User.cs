@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Bank.Pages.Data.Entities
+namespace OnlineBank.Data.Entities
 {
     public class User
     {

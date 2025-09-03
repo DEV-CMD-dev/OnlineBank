@@ -1,9 +1,10 @@
-﻿using Bank.Pages.Data.Entities;
-using Bank.Pages.Data.Structs;
+﻿using OnlineBank.Data.Entities;
+using OnlineBank.Data.Structs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using OnlineBank.Data.Classes;
 
-namespace Bank.Pages.Data
+namespace OnlineBank.Data
 {
     public class BankDbContext : DbContext
     {
@@ -22,6 +23,34 @@ namespace Bank.Pages.Data
             modelBuilder.Entity<User>()
                 .HasIndex(u => u.Email)
                 .IsUnique();
+
+            modelBuilder.Entity<Card>(entity =>
+            {
+                entity.Property(e => e.CVV)
+                    .HasConversion(new CardCVVConverter())
+                    .HasMaxLength(3)
+                    .IsRequired();
+            });
+
+            modelBuilder.Entity<Transaction>()
+                .HasOne(t => t.FromCard)
+                .WithMany(c => c.SentTransactions)
+                .HasForeignKey(t => t.FromCardId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Transaction>()
+                .HasOne(t => t.ToCard)
+                .WithMany(c => c.ReceivedTransactions)
+                .HasForeignKey(t => t.ToCardId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Card>()
+                .Property(c => c.Balance)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<Transaction>()
+                .Property(t => t.Amount)
+                .HasPrecision(18, 2);
         }
     }
 }

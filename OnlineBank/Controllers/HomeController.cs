@@ -18,6 +18,21 @@ namespace OnlineBank.Controllers
             return View();
         }
 
+        public IActionResult Wallet()
+        {
+            return View();
+        }
+        
+        public IActionResult Transactions()
+        {
+            return View();
+        }
+        
+        public IActionResult Settings()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

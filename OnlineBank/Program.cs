@@ -11,7 +11,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<BankDbContext>(
     dbContextOptions => dbContextOptions.UseSqlServer(
-        builder.Configuration["ConnectionStrings:LocalDb"])
+        builder.Configuration["ConnectionStrings:RemoteDb"])
     );
 
 builder.Services.AddScoped<UserService>();
@@ -40,37 +40,37 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-using (var scope = app.Services.CreateScope())
-{
-    var userService = scope.ServiceProvider.GetRequiredService<UserService>();
-    var cardService = scope.ServiceProvider.GetRequiredService<CardService>();
+//using (var scope = app.Services.CreateScope())
+//{
+//    var userService = scope.ServiceProvider.GetRequiredService<UserService>();
+//    var cardService = scope.ServiceProvider.GetRequiredService<CardService>();
 
-    var testUser = new User
-    {
-        FullName = "Vasya pupkin",
-        Email = "vasya@gmail.com",
-        Phone = "+380678888888",
-        Password = "VeryHardPass",
-        Address = "Rivne, Ukraine",
-        CreatedAt = DateOnly.FromDateTime(DateTime.Today)
-    };
+//    var testUser = new User
+//    {
+//        FullName = "Oleg Melnik",
+//        Email = "ol23@gmail.com",
+//        Phone = "+380995523485",
+//        Password = "TestPasg@5ac",
+//        Address = "Kyiv, Ukraine",
+//        CreatedAt = DateOnly.FromDateTime(DateTime.Today)
+//    };
 
-    userService.CreateUser(testUser);
+//    userService.CreateUser(testUser);
 
-    var testCard = new Card
-    {
-        UserId = testUser.Id,
-        CardNumber = "8888567855556127",
-        CardType = CardType.MasterCard,
-        ExpirationDate = new DateOnly(2028, 12, 1),
-        CVV = new CardCVV("555"),
-        Balance = 10000.00m,
-        IsBlocked = false,
-        CreatedAt = DateOnly.FromDateTime(DateTime.Today)
-    };
+//    var testCard = new Card
+//    {
+//        UserId = testUser.Id,
+//        CardNumber = "8558645265896127",
+//        CardType = CardType.UnionPay,
+//        ExpirationDate = new DateOnly(2028, 12, 1),
+//        CVV = new CardCVV("113"),
+//        Balance = 10.50m,
+//        IsBlocked = false,
+//        CreatedAt = DateOnly.FromDateTime(DateTime.Today)
+//    };
 
-    cardService.AddCard(testCard);
-}
+//    cardService.AddCard(testCard);
+//}
 
 
 

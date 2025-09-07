@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineBank.Data;
-using OnlineBank.Data.Entities;
-using OnlineBank.Data.Enums;
-using OnlineBank.Data.Structs;
 
 var builder = WebApplication.CreateBuilder(args);
 

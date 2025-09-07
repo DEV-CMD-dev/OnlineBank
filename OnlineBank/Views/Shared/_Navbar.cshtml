@@ -1,28 +1,22 @@
 ﻿<header>
-    <div>
-        <h1>Bank</h1>
-    </div>
-    <nav class="navbar">
-        <ul>
+    <nav class="nav-bar">
+        <div class="bank-logo">
+            <a asp-action="Index"><img src="/images/bankLogo.png" /></a>
+        </div>
+        <ul class="nav-list">
             <li>
                 <a asp-action="Wallet">
-                    <div>
-                        Wallet
-                    </div>
+                    Wallet
                 </a>
             </li>
             <li>
                 <a asp-action="Transactions">
-                    <div>
-                        Transactions
-                    </div>
+                    Transactions
                 </a>
             </li>
             <li>
                 <a asp-action="Settings">
-                    <div>
-                        Settings
-                    </div>
+                    Settings
                 </a>
             </li>
         </ul>

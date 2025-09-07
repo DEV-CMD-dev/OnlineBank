@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineBank.Data;
+using OnlineBank.Data.Entities;
+using OnlineBank.Data.Enums;
+using OnlineBank.Data.Structs;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +13,11 @@ builder.Services.AddDbContext<BankDbContext>(
     dbContextOptions => dbContextOptions.UseSqlServer(
         builder.Configuration["ConnectionStrings:LocalDb"])
     );
+
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<CardService>();
+builder.Services.AddScoped<TransactionService>();
+
 
 var app = builder.Build();
     
@@ -32,41 +40,38 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-//using (var scope = app.Services.CreateScope())
-//{
-//    var context = scope.ServiceProvider.GetRequiredService<BankDbContext>();
+using (var scope = app.Services.CreateScope())
+{
+    var userService = scope.ServiceProvider.GetRequiredService<UserService>();
+    var cardService = scope.ServiceProvider.GetRequiredService<CardService>();
 
-//    if (!context.Users.Any())
-//    {
-//        var testUser = new User
-//        {
-//            FullName = "Ivan Ivanov",
-//            Email = "ivan@example.com",
-//            Phone = "+380501234567",
-//            Password = "TestPassword123!",
-//            Address = "Kyiv, Ukraine",
-//            CreatedAt = DateOnly.FromDateTime(DateTime.Today)
-//        };
+    var testUser = new User
+    {
+        FullName = "Vasya pupkin",
+        Email = "vasya@gmail.com",
+        Phone = "+380678888888",
+        Password = "VeryHardPass",
+        Address = "Rivne, Ukraine",
+        CreatedAt = DateOnly.FromDateTime(DateTime.Today)
+    };
 
-//        context.Users.Add(testUser);
-//        context.SaveChanges();
+    userService.CreateUser(testUser);
 
-//        var testCard = new Card
-//        {
-//            UserId = testUser.Id,
-//            CardNumber = "1234567812345678",
-//            CardType = CardType.Visa,
-//            ExpirationDate = new DateOnly(2026, 12, 1),
-//            CVV = new CardCVV("123"),
-//            Balance = 1000.00m,
-//            IsBlocked = false,
-//            CreatedAt = DateOnly.FromDateTime(DateTime.Today)
-//        };
+    var testCard = new Card
+    {
+        UserId = testUser.Id,
+        CardNumber = "8888567855556127",
+        CardType = CardType.MasterCard,
+        ExpirationDate = new DateOnly(2028, 12, 1),
+        CVV = new CardCVV("555"),
+        Balance = 10000.00m,
+        IsBlocked = false,
+        CreatedAt = DateOnly.FromDateTime(DateTime.Today)
+    };
 
-//        context.Cards.Add(testCard);
-//        context.SaveChanges();
-//    }
-//}
+    cardService.AddCard(testCard);
+}
+
 
 
 app.Run();

@@ -1,7 +1,5 @@
 ﻿using OnlineBank.Data.Entities;
-using OnlineBank.Data.Structs;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineBank.Data.Classes;
 
 namespace OnlineBank.Data

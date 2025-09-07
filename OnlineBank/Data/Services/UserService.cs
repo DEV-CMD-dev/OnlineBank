@@ -11,6 +11,7 @@ public class UserService
     }
 
     public User? GetUser(int userId) => _db.Users.Find(userId);
+    public List<User> GetAllUsers() => _db.Users.ToList();
 
     public void CreateUser(User user)
     {
@@ -23,4 +24,5 @@ public class UserService
     {
         return _db.Cards.Where(c => c.UserId == userId).ToList();
     }
+
 }

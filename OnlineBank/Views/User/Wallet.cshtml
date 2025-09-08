@@ -1,0 +1,40 @@
+﻿@model OnlineBank.Data.Entities.User
+
+@{
+    ViewData["Title"] = "Wallet";
+}
+
+<h2>Wallet</h2>
+
+<p>Balance overview for @Model.FullName</p>
+
+@if (CardService.GetAllCards(Model.Id).Any())
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Card Number</th>
+                <th>Type</th>
+                <th>Balance</th>
+                <th>Expiration</th>
+                <th>Blocked</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var card in CardService.GetAllCards(Model.Id))
+            {
+                <tr>
+                    <td>@card.CardNumber</td>
+                    <td>@card.CardType</td>
+                    <td>@card.Balance</td>
+                    <td>@card.ExpirationDate.ToShortDateString()</td>
+                    <td>@(card.IsBlocked ? "Yes" : "No")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No cards available</p>
+}

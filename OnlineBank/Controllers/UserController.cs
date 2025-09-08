@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineBank.Data;
 using OnlineBank.Data.Entities;
+using OnlineBank.Data.Services;
 
 public class UserController : Controller
 {
@@ -9,10 +10,7 @@ public class UserController : Controller
     public UserController(BankDbContext db)
     {
         _db = db;
-        if (UserService.CurrentUser == null)
-        {
-            UserService.Init(_db);
-        }
+        ServiceInitializer.InitAll(_db);
     }
 
     [HttpGet]
@@ -63,5 +61,22 @@ public class UserController : Controller
         UserService.Logout();
         HttpContext.Session.Remove("UserId");
         return RedirectToAction("Login");
+    }
+
+    public IActionResult Index() => UserView();
+
+    public IActionResult Wallet() => UserView();
+
+    public IActionResult Transactions() => UserView();
+
+    public IActionResult Settings() => UserView();
+
+    private IActionResult UserView()
+    {
+        if (UserService.CurrentUser == null)
+        {
+            return RedirectToAction("Login");
+        }
+        return View(UserService.CurrentUser);
     }
 }

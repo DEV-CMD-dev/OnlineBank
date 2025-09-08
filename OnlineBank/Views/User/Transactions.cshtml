@@ -1,0 +1,64 @@
+﻿@model OnlineBank.Data.Entities.User
+
+@{
+    ViewData["Title"] = "Transactions";
+}
+
+<h2>Transactions</h2>
+
+@if (Model.Cards != null && Model.Cards.Any())
+{
+    <table>
+        <thead>
+            <tr>
+                <th>From Card</th>
+                <th>To Card</th>
+                <th>Amount</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Description</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var card in Model.Cards)
+            {
+                if (card.SentTransactions != null)
+                {
+                    foreach (var tx in card.SentTransactions)
+                    {
+                        <tr>
+                            <td>@tx.FromCard.CardNumber</td>
+                            <td>@tx.ToCard.CardNumber</td>
+                            <td>@tx.Amount</td>
+                            <td>@tx.Type</td>
+                            <td>@tx.Status</td>
+                            <td>@tx.Description</td>
+                            <td>@tx.CreatedAt.ToShortDateString()</td>
+                        </tr>
+                    }
+                }
+
+                if (card.ReceivedTransactions != null)
+                {
+                    foreach (var tx in card.ReceivedTransactions)
+                    {
+                        <tr>
+                            <td>@tx.FromCard.CardNumber</td>
+                            <td>@tx.ToCard.CardNumber</td>
+                            <td>@tx.Amount</td>
+                            <td>@tx.Type</td>
+                            <td>@tx.Status</td>
+                            <td>@tx.Description</td>
+                            <td>@tx.CreatedAt.ToShortDateString()</td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No transactions found</p>
+}

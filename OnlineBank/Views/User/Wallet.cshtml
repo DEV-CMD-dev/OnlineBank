@@ -1,14 +1,18 @@
-﻿@model OnlineBank.Data.Entities.User
+﻿@using OnlineBank.Data.Classes
+@model WalletViewModel
+
+
 
 @{
     ViewData["Title"] = "Wallet";
+
 }
 
 <h2>Wallet</h2>
 
-<p>Balance overview for @Model.FullName</p>
+<p>Balance overview for @Model.User.FullName</p>
 
-@if (CardService.GetAllCards(Model.Id).Any())
+@if (Model.Cards.Any())
 {
     <table>
         <thead>
@@ -21,7 +25,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var card in CardService.GetAllCards(Model.Id))
+            @foreach (var card in Model.Cards)
             {
                 <tr>
                     <td>@card.CardNumber</td>

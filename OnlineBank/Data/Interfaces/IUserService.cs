@@ -4,7 +4,7 @@ namespace OnlineBank.Data.Interfaces
 {
     public interface IUserService
     {   
-        User? GetUser(int userId);
+        User? GetUser(int? userId);
         List<User> GetAllUsers();
         void CreateUser(User user);
         List<Card> GetUserCards(int userId);

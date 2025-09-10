@@ -1,16 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OnlineBank.Data;
+using OnlineBank.Data.Classes;
 using OnlineBank.Data.Entities;
-using OnlineBank.Data.Services;
+using OnlineBank.Data.Interfaces;
 
 public class UserController : Controller
 {
-    private readonly BankDbContext _db;
+    private readonly IUserService _userService;
+    private readonly ICardService _cardService;
 
-    public UserController(BankDbContext db)
+    public UserController(IUserService userService, ICardService cardService)
     {
-        _db = db;
-        ServiceInitializer.InitAll(_db);
+        _userService = userService;
+        _cardService = cardService;
     }
 
     [HttpGet]
@@ -22,9 +23,9 @@ public class UserController : Controller
     [HttpPost]
     public IActionResult Login(string email, string password)
     {
-        if (UserService.Login(email, password))
+        if (_userService.Login(email, password))
         {
-            HttpContext.Session.SetInt32("UserId", UserService.CurrentUser!.Id);
+            HttpContext.Session.SetInt32("UserId", _userService.CurrentUser!.Id);
             return RedirectToAction("Index", "Home");
         }
 
@@ -52,31 +53,49 @@ public class UserController : Controller
             Cards = new List<Card>()
         };
 
-        UserService.CreateUser(user);
+        _userService.CreateUser(user);
         return RedirectToAction("Login");
     }
 
     public IActionResult Logout()
     {
-        UserService.Logout();
+        _userService.Logout();
         HttpContext.Session.Remove("UserId");
         return RedirectToAction("Login");
     }
 
     public IActionResult Index() => UserView();
 
-    public IActionResult Wallet() => UserView();
+    public IActionResult Wallet()
+    {
+        var userId = GetCurrentUserId();
+        if (userId == null)
+            return RedirectToAction("Login");
 
+        var user = _userService.GetUser(userId.Value);
+        var cards = _cardService.GetUserCards(userId.Value);
+
+        var model = new WalletViewModel
+        {
+            User = _userService.GetUser(userId),
+            Cards = cards
+        };
+
+        return View(model);
+
+    }
+    private int? GetCurrentUserId() => HttpContext.Session.GetInt32("UserId");
     public IActionResult Transactions() => UserView();
 
     public IActionResult Settings() => UserView();
 
     private IActionResult UserView()
     {
-        if (UserService.CurrentUser == null)
-        {
+        var userId = GetCurrentUserId();
+        if (userId == null)
             return RedirectToAction("Login");
-        }
-        return View(UserService.CurrentUser);
+
+        var user = _userService.GetUser(userId.Value);
+        return View(user);
     }
 }

@@ -12,7 +12,7 @@ public class UserService : IUserService
         _db = db ?? throw new ArgumentNullException(nameof(db));
     }
 
-    public User? GetUser(int userId)
+    public User? GetUser(int? userId)
     {
         return _db.Users.Find(userId);
     }

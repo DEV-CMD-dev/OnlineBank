@@ -1,36 +1,20 @@
 ﻿using OnlineBank.Data;
+using OnlineBank.Data.Interfaces;
 
-public static class CardService
+public class CardService : ICardService
 {
-    private static BankDbContext? _db;
-
-    public static void Init(BankDbContext db)
+    private readonly BankDbContext _db;
+    public CardService(BankDbContext db)
     {
         _db = db ?? throw new ArgumentNullException(nameof(db));
     }
 
-    public static Card? GetCard(int cardId)
+    public Card? GetCard(int cardId) => _db.Cards.Find(cardId);
+
+    public List<Card> GetUserCards(int userId) => _db.Cards.Where(c => c.UserId == userId).ToList();
+
+    public void AddCard(Card card)
     {
-        if (_db == null) throw new InvalidOperationException("CardService is not initialized");
-        return _db.Cards.Find(cardId);
-    }
-
-    public static List<Card> GetAllCards(int userId)
-        {
-        if (_db == null) throw new InvalidOperationException("CardService is not initialized");
-        return _db.Cards.Where(c => c.UserId == userId).ToList();
-    }
-
-
-    public static List<Card> GetUserCards(int userId)
-    {
-        if (_db == null) throw new InvalidOperationException("CardService is not initialized");
-        return _db.Cards.Where(c => c.UserId == userId).ToList();
-    }
-
-    public static void AddCard(Card card)
-    {
-        if (_db == null) throw new InvalidOperationException("CardService is not initialized");
         card.CreatedAt = DateOnly.FromDateTime(DateTime.Now);
         card.Balance = 0;
         card.IsBlocked = false;
@@ -38,23 +22,23 @@ public static class CardService
         _db.SaveChanges();
     }
 
-    public static void BlockCard(int cardId)
+    public void BlockCard(int cardId)
     {
         var card = GetCard(cardId);
         if (card != null)
         {
             card.IsBlocked = true;
-            _db!.SaveChanges();
+            _db.SaveChanges();
         }
     }
 
-    public static void UnblockCard(int cardId)
+    public void UnblockCard(int cardId)
     {
         var card = GetCard(cardId);
         if (card != null)
         {
             card.IsBlocked = false;
-            _db!.SaveChanges();
+            _db.SaveChanges();
         }
     }
 }

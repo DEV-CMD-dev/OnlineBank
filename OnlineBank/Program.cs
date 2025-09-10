@@ -1,9 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OnlineBank.Data;
+using OnlineBank.Data.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+
+// Services
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICardService, CardService>();
+builder.Services.AddScoped<ITransactionService, TransactionService>();
 
 // DB
 builder.Services.AddDbContext<BankDbContext>(

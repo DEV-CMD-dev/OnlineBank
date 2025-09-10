@@ -1,22 +1,24 @@
 ﻿using OnlineBank.Data;
 using OnlineBank.Data.Entities;
 using OnlineBank.Data.Enums;
+using OnlineBank.Data.Interfaces;
 
-public static class TransactionService
+public class TransactionService : ITransactionService
 {
-    private static BankDbContext? _db;
-
-    public static void Init(BankDbContext db)
+    private readonly BankDbContext _db;
+    private readonly ICardService _cardService;
+    public TransactionService(BankDbContext db, ICardService cardService)
     {
         _db = db ?? throw new ArgumentNullException(nameof(db));
+        _cardService = cardService;
     }
 
-    public static void CreateTransaction(int fromCardId, int toCardId, decimal amount, string description = "")
+    public void CreateTransaction(int fromCardId, int toCardId, decimal amount, string description = "")
     {
         if (_db == null) throw new InvalidOperationException("TransactionService is not initialized");
 
-        var fromCard = CardService.GetCard(fromCardId);
-        var toCard = CardService.GetCard(toCardId);
+        var fromCard = _cardService.GetCard(fromCardId);
+        var toCard = _cardService.GetCard(toCardId);
 
         if (fromCard == null || toCard == null)
             throw new Exception("One of the cards not found.");
@@ -42,7 +44,7 @@ public static class TransactionService
         _db.SaveChanges();
     }
 
-    public static List<Transaction> GetCardTransactions(int cardId)
+    public List<Transaction> GetCardTransactions(int cardId)
     {
         if (_db == null) throw new InvalidOperationException("TransactionService is not initialized");
 

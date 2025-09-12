@@ -73,11 +73,14 @@ public class UserController : Controller
             return RedirectToAction("Login");
 
         var user = _userService.GetUser(userId.Value);
+        if (user == null)
+            return RedirectToAction("Login");
+
         var cards = _cardService.GetUserCards(userId.Value);
 
         var model = new WalletViewModel
         {
-            User = _userService.GetUser(userId),
+            User = user,
             Cards = cards
         };
 

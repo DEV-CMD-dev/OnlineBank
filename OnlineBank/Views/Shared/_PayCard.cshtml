@@ -1,0 +1,14 @@
+﻿@using OnlineBank.Data.Classes
+@model PayCardViewModel
+
+<div class="pay-card" role="listitem">
+    <img src="@Model.LogoPath" alt="@Model.Title logo" class="pay-logo" />
+    <h3>@Model.Title</h3>
+    <p>@Model.Description</p>
+    <ul class="perks">
+        @foreach (var perk in Model.Perks)
+        {
+            <li>@perk</li>
+        }
+    </ul>
+</div>

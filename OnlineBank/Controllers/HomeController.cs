@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using OnlineBank.Data.Classes;
 using OnlineBank.Models;
 using System.Diagnostics;
 
@@ -13,9 +14,49 @@ namespace OnlineBank.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public ActionResult Index()
         {
-            return View();
+            var cards = new List<PayCardViewModel>
+            {
+                new PayCardViewModel
+                {
+                    LogoPath = "/images/cards/visa.png",
+                    Title = "Visa",
+                    Description = "Wide acceptance worldwide",
+                    Perks = new List<string> { "Contactless payments", "0.5% cashback on groceries" }
+                },
+                new PayCardViewModel
+                {
+                    LogoPath = "/images/cards/mastercard.png",
+                    Title = "MasterCard",
+                    Description = "Secure payments and premium offers",
+                    Perks = new List<string> { "Airport lounge access", "1% cashback on travel" }
+                },
+                new PayCardViewModel
+                {
+                    LogoPath = "/images/cards/unionpay.png",
+                    Title = "UnionPay",
+                    Description = "Good rates in Asia",
+                    Perks = new List<string> { "Low FX fees", "Partner discounts" }
+                },
+                new PayCardViewModel
+                {
+                    LogoPath = "/images/cards/googlepay.png",
+                    Title = "GooglePay",
+                    Description = "Smart payments across Europe",
+                    Perks = new List<string> { "Instant cashback", "Secure NFC transactions", "Works with loyalty programs" }
+                },
+                new PayCardViewModel
+                {
+                    LogoPath = "/images/cards/applepay.png",
+                    Title = "Apple Pay",
+                    Description = "Pay quickly with your phone",
+                    Perks = new List<string> { "Easy in-app payments", "Tokenized security" }
+                }
+
+            };
+
+            return View(cards);
         }
 
         public IActionResult Wallet()

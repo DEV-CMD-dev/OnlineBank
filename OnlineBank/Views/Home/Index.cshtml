@@ -1,7 +1,122 @@
-﻿@{
+﻿@using OnlineBank.Data.Classes
+@model List<PayCardViewModel>
+@{
     ViewData["Title"] = "Bank";
 }
 
-<div>
-    <h1>Main page</h1>
-</div>
+<link rel="stylesheet" href="~/css/dashboard.css" />
+<main class="dashboard">
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome to OnlineBank</h1>
+            <p>Your trusted digital banking solution designed for speed security and ease</p>
+            <div class="hero-actions">
+                <a asp-controller="User" asp-action="Login" class="btn primary">Sign in</a>
+                <a asp-controller="User" asp-action="Register" class="btn">Create account</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="/images/bankLogo.png" alt="Online bank illustration" />
+        </div>
+    </section>
+
+    <section class="features-grid">
+        <article class="feature">
+            <h2>Fast transfers</h2>
+            <p>Send money instantly between your cards or to other banks with minimal fees</p>
+            <a asp-controller="User" asp-action="Wallet" class="link">Open wallet →</a>
+        </article>
+
+        <article class="feature">
+            <h2>Smart budgeting</h2>
+            <p>Track spendings set limits and get insights to save more every month</p>
+            <a asp-controller="User" asp-action="Transactions" class="link">View transactions →</a>
+        </article>
+
+        <article class="feature">
+            <h2>Security first</h2>
+            <p>Two factor authentication card blocking and secure encryption for all data</p>
+            <a asp-controller="User" asp-action="Settings" class="link">Account settings →</a>
+        </article>
+    </section>
+
+    <section class="cards-section">
+        <header class="section-header">
+            <h2>Popular payment methods</h2>
+            <p>Swipe to explore supported card networks and perks</p>
+        </header>
+
+        <div class="cards-scroll" role="list">
+            @foreach (var card in Model)
+            {
+                <partial name="PayCard" model="card" />
+            }
+        </div>
+
+        <div class="cards-controls">
+            <button id="scroll-left" class="control">◀</button>
+            <button id="scroll-right" class="control">▶</button>
+        </div>
+    </section>
+
+    <section class="promo">
+        <h2>Why choose OnlineBank</h2>
+        <div class="promo-list">
+            <div class="promo-item">
+                <strong>Instant payments</strong>
+                <p>Send money in seconds</p>
+            </div>
+            <div class="promo-item">
+                <strong>Cashback</strong>
+                <p>Get rewarded for everyday purchases</p>
+            </div>
+            <div class="promo-item">
+                <strong>24/7 Support</strong>
+                <p>We are here when you need help</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+@section Scripts {
+    <script>
+        (function(){
+            const scroller = document.querySelector('.cards-scroll');
+            const left = document.getElementById('scroll-left');
+            const right = document.getElementById('scroll-right');
+
+            if(!scroller) return;
+
+            left.addEventListener('click', ()=> {
+                scroller.scrollBy({ left: -300, behavior: 'smooth' });
+            });
+
+            right.addEventListener('click', ()=> {
+                scroller.scrollBy({ left: 300, behavior: 'smooth' });
+            });
+
+            let isDown = false, startX, scrollLeft;
+            scroller.addEventListener('mousedown', e => {
+                isDown = true;
+                scroller.classList.add('dragging');
+                startX = e.pageX - scroller.offsetLeft;
+                scrollLeft = scroller.scrollLeft;
+            });
+            scroller.addEventListener('mouseleave', ()=> {
+                isDown = false;
+                scroller.classList.remove('dragging');
+            });
+            scroller.addEventListener('mouseup', ()=> {
+                isDown = false;
+                scroller.classList.remove('dragging');
+            });
+            scroller.addEventListener('mousemove', e => {
+                if(!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - scroller.offsetLeft;
+                const walk = (x - startX) * 1;
+                scroller.scrollLeft = scrollLeft - walk;
+            });
+        })();
+    </script>
+}

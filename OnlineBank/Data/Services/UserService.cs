@@ -34,6 +34,13 @@ public class UserService : IUserService
         return _db.Cards.Where(c => c.UserId == userId).ToList();
     }
 
+    public void UpdateUser(User user)
+    {
+        if (user == null) throw new ArgumentNullException(nameof(user));
+        _db.Users.Update(user);
+        _db.SaveChanges();
+    }
+
     public bool Login(string email, string password)
     {
         var user = _db.Users.FirstOrDefault(u => u.Email == email && u.Password == password);

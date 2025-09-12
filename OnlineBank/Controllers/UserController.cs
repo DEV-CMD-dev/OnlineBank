@@ -87,6 +87,23 @@ public class UserController : Controller
         return View(model);
 
     }
+
+    public IActionResult UpdateSettings(string fullName, string phone, string address)
+    {
+        var userId = GetCurrentUserId();
+        if (userId == null)
+            return RedirectToAction("Login");
+        var user = _userService.GetUser(userId.Value);
+        if (user == null)
+            return RedirectToAction("Login");
+        user.FullName = fullName;
+        user.Phone = phone;
+        user.Address = address;
+
+        _userService.UpdateUser(user);
+        return RedirectToAction("Settings");
+    }
+
     private int? GetCurrentUserId() => HttpContext.Session.GetInt32("UserId");
     public IActionResult Transactions() => UserView();
 

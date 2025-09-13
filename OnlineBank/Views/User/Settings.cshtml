@@ -4,20 +4,28 @@
     ViewData["Title"] = "Settings";
 }
 
-<h2>Settings</h2>
+<link rel="stylesheet" href="~/css/settings.css" />
 
-<form method="post" asp-action="UpdateSettings">
-    <div>
-        <label>Full Name</label>
-        <input type="text" name="fullName" value="@Model.FullName" maxlength="100" />
-    </div>
-    <div>
-        <label>Phone</label>
-        <input type="tel" name="phone" value="@Model.Phone" />
-    </div>
-    <div>
-        <label>Address</label>
-        <input type="text" name="address" value="@Model.Address" />
-    </div>
-    <button type="submit">Save Changes</button>
-</form>
+<div class="settings-container">
+    <h2>Settings</h2>
+
+    <form method="post" asp-action="UpdateSettings" class="settings-form">
+        <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" name="fullName" value="@Model.FullName" maxlength="100" />
+        </div>
+        <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" name="phone" value="@Model.Phone" />
+        </div>
+        <div class="form-group">
+            <label>Address</label>
+            <input type="text" name="address" value="@Model.Address" />
+        </div>
+        <button type="submit" class="btn-save">Save Changes</button>
+    </form>
+
+    <form method="post" asp-action="Logout">
+        <button type="submit" class="btn-logout">Logout</button>
+    </form>
+</div>

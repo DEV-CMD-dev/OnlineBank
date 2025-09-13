@@ -14,6 +14,6 @@ public class Card
     public bool IsBlocked { get; set; }
     public DateOnly CreatedAt { get; set; }
 
-    public ICollection<Transaction> SentTransactions { get; set; }
-    public ICollection<Transaction> ReceivedTransactions { get; set; }
+    public ICollection<Transaction> SentTransactions { get; set; } = new List<Transaction>();
+    public ICollection<Transaction> ReceivedTransactions { get; set; } = new List<Transaction>();
 }

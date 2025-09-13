@@ -1,44 +1,50 @@
 ﻿@using OnlineBank.Data.Classes
+@using OnlineBank.Data.Entities
+@using OnlineBank.Data.Enums
 @model WalletViewModel
 
-
+<link rel="stylesheet" href="~/css/wallet.css" />
 
 @{
     ViewData["Title"] = "Wallet";
-
 }
 
-<h2>Wallet</h2>
+<div class="wallet-container">
+    <div class="wallet-header">
+        <h2>Wallet</h2>
+        <p>Balance overview for <strong>@Model.User.FullName</strong></p>
+    </div>
 
-<p>Balance overview for @Model.User.FullName</p>
-
-@if (Model.Cards.Any())
-{
-    <table>
-        <thead>
-            <tr>
-                <th>Card Number</th>
-                <th>Type</th>
-                <th>Balance</th>
-                <th>Expiration</th>
-                <th>Blocked</th>
-            </tr>
-        </thead>
-        <tbody>
+    @if (Model.Cards != null && Model.Cards.Any())
+    {
+        <div class="cards-list">
             @foreach (var card in Model.Cards)
             {
-                <tr>
-                    <td>@card.CardNumber</td>
-                    <td>@card.CardType</td>
-                    <td>@card.Balance</td>
-                    <td>@card.ExpirationDate.ToShortDateString()</td>
-                    <td>@(card.IsBlocked ? "Yes" : "No")</td>
-                </tr>
+                var cardClass = card.CardType switch
+                {
+                    CardType.Visa => "card-item card-visa",
+                    CardType.MasterCard => "card-item card-mastercard",
+                    CardType.Amex => "card-item card-amex",
+                    CardType.Maestro => "card-item card-maestro",
+                    CardType.UnionPay => "card-item card-unionpay",
+                    _ => "card-item card-other"
+                };
+
+                <div class="@cardClass @(card.IsBlocked ? "blocked" : "")">
+                    <img class="card-type-label" src="~/images/cards/@($"{card.CardType.ToString().ToLower()}.png")" alt="@card.CardType" />
+                    <p class="card-number">@card.CardNumber</p>
+                    <p class="balance"><strong>Balance:</strong> $@card.Balance</p>
+                    <p class="expires"><strong>Expires:</strong> @card.ExpirationDate.ToShortDateString()</p>
+                    <p class="status">@(card.IsBlocked ? "Blocked" : "Active")</p>
+                </div>
             }
-        </tbody>
-    </table>
-}
-else
-{
-    <p>No cards available</p>
-}
+        </div>
+    }
+    else
+    {
+        <p>No cards available</p>
+    }
+
+    <h2>Transactions</h2>
+
+</div>

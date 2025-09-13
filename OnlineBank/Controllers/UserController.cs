@@ -6,13 +6,11 @@ using OnlineBank.Data.Interfaces;
 
 public class UserController : BaseController
 {
-    private readonly IUserService _userService;
     private readonly ICardService _cardService;
 
     public UserController(IUserService userService, ICardService cardService)
         : base(userService)
     {
-        _userService = userService;
         _cardService = cardService;
     }
 

@@ -1,9 +1,15 @@
-﻿<header>
+﻿<link rel="stylesheet" href="/css/_Navbar.css" />
+<header>
     <nav class="nav-bar">
         <div class="bank-logo">
-            <a asp-action="Index" asp-controller="Home"><img src="/images/bankLogo.png" /></a>
+            <a asp-action="Index" asp-controller="Home">
+                <img src="/images/bankLogo.png" />
+            </a>
         </div>
-        <ul class="nav-list">
+
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+
+        <ul class="nav-list" id="navList">
             @if (ViewBag.CurrentUser != null)
             {
                 <li><a asp-controller="User" asp-action="Wallet">Wallet</a></li>
@@ -13,3 +19,10 @@
         </ul>
     </nav>
 </header>
+
+<script>
+    function toggleMenu() {
+      const navList = document.getElementById('navList');
+      navList.classList.toggle('show');
+    }
+</script>

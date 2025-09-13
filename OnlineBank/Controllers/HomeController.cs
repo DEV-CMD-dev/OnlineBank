@@ -1,15 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
 using OnlineBank.Data.Classes;
+using OnlineBank.Data.Interfaces;
 using OnlineBank.Models;
 using System.Diagnostics;
 
 namespace OnlineBank.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IUserService userService)
+            : base(userService)
         {
             _logger = logger;
         }

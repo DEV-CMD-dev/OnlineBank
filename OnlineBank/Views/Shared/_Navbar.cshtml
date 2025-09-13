@@ -4,21 +4,12 @@
             <a asp-action="Index" asp-controller="Home"><img src="/images/bankLogo.png" /></a>
         </div>
         <ul class="nav-list">
-            <li>
-                <a asp-action="Wallet" asp-controller="User">
-                    Wallet
-                </a>
-            </li>
-            <li>
-                <a asp-action="Transactions" asp-controller="User">
-                    Transactions
-                </a>
-            </li>
-            <li>
-                <a asp-action="Settings" asp-controller="User">
-                    Settings
-                </a>
-            </li>
+            @if (ViewBag.CurrentUser != null)
+            {
+                <li><a asp-controller="User" asp-action="Wallet">Wallet</a></li>
+                <li><a asp-controller="User" asp-action="Transactions">Transactions</a></li>
+                <li><a asp-controller="User" asp-action="Settings">Settings</a></li>
+            }
         </ul>
     </nav>
 </header>

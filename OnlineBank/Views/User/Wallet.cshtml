@@ -34,7 +34,7 @@
 
                     <div class="@cardClass @(card.IsBlocked ? "blocked" : "")">
                         <img class="card-type-label" src="~/images/cards/@($"{card.CardType.ToString().ToLower()}.png")" alt="@card.CardType" />
-                        <p class="card-number">@card.CardNumber</p>
+                        <p class="card-number">@($"{card.CardNumber[0..4].ToString()} **** **** {card.CardNumber[11..15].ToString()}") </p>
                         <p class="balance"><strong>Balance:</strong> $@card.Balance</p>
                         <p class="expires"><strong>Expires:</strong> @card.ExpirationDate.ToShortDateString()</p>
                         <p class="status">@(card.IsBlocked ? "Blocked" : "Active")</p>

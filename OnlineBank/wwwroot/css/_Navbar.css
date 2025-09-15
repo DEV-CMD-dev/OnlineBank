@@ -55,6 +55,16 @@
   background-color: #f2f2f2;
 }
 
+.mobile-only {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .mobile-only {
+        display: block;
+    }
+}
+
 @media (max-width: 600px) {
   .menu-toggle {
     display: block;

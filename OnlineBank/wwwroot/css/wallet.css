@@ -1,6 +1,13 @@
-﻿.wallet-container {
-    font-family: 'Arial', sans-serif;
+﻿.main-wallet {
+    display: flex;
+    justify-content: center;
+}
+
+.wallet-container {
+    width: 100%;
+    max-width: 1200px;
     padding: 20px;
+    box-sizing: border-box;
 }
 
 .wallet-header {

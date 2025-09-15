@@ -16,9 +16,3 @@ html, body{
 .main-content {
     flex: 1;
 }
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px !important;
-  }
-}

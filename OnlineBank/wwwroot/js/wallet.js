@@ -66,6 +66,23 @@
     updateState();
 })();
 
+function showToast(message, type = "success") {
+    const container = document.getElementById("toastContainer");
+    if (!container) return;
+
+    const toast = document.createElement("div");
+    toast.className = `toast ${type}`;
+    toast.textContent = message;
+
+    container.appendChild(toast);
+
+    setTimeout(() => {
+        toast.remove();
+    }, 4000);
+}
+
+function toastSuccess(msg) { showToast(msg, "success"); }
+function toastError(msg) { showToast(msg, "error"); }
 
 
 // Copy 
@@ -74,10 +91,16 @@ document.addEventListener('click', function (e) {
     if (!btn) return;
 
     const full = btn.getAttribute('data-full');
+    if (!full) return;
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(full).then(() => {
-            console.log('copied');
-        })
-    };
+            toastSuccess("Card number copied to clipboard!");
+        }).catch(() => {
+            toastError("Error occured while copying card number!");
+        });
+    } else {
+        toastError("Clipboard API not supported");
+    }
 });
+

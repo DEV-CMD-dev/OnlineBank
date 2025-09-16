@@ -10,7 +10,6 @@
 }
 
 <main class="main-wallet">
-    
     <div class="wallet-container">
         <div class="wallet-header">
             <h2>Wallet</h2>
@@ -19,7 +18,12 @@
 
         @if (Model.Cards != null && Model.Cards.Any())
         {
-            <div class="cards-list">
+            <div class="cards-controls">
+                <button id="prevCard" type="button">◀</button>
+                <button id="nextCard" type="button">▶</button>
+            </div>
+
+            <div class="cards-stage" id="cardsStage">
                 @foreach (var card in Model.Cards)
                 {
                     var cardClass = card.CardType switch
@@ -32,12 +36,24 @@
                         _ => "card-item card-other"
                     };
 
-                    <div class="@cardClass @(card.IsBlocked ? "blocked" : "")">
+                    <div class="@cardClass @(card.IsBlocked ? "blocked" : "")"
+                         data-cvv="@card.CVV"
+                         data-index="@Model.Cards.IndexOf(card)">
                         <img class="card-type-label" src="~/images/cards/@($"{card.CardType.ToString().ToLower()}.png")" alt="@card.CardType" />
-                        <p class="card-number">@($"{card.CardNumber[0..4].ToString()} **** **** {card.CardNumber[11..15].ToString()}") </p>
-                        <p class="balance"><strong>Balance:</strong> $@card.Balance</p>
+
+                        <p data-full="@card.CardNumber" class="card-number sensitive">@($"{card.CardNumber[0..4]} **** **** {card.CardNumber[12..16]}")</p>
+                        <p class="balance sensitive"><strong>Balance:</strong> $@card.Balance</p>
                         <p class="expires"><strong>Expires:</strong> @card.ExpirationDate.ToShortDateString()</p>
                         <p class="status">@(card.IsBlocked ? "Blocked" : "Active")</p>
+
+                        <div class="cvv-block">
+                            <label>CVV</label>
+                            <span class="cvv masked">***</span>
+                            <button class="toggleReveal" type="button" aria-pressed="false">
+                                <img src="/images/resources/hide.png"/>
+                            </button>
+                        </div>
+
                     </div>
                 }
             </div>
@@ -48,4 +64,6 @@
         }
     </div>
 </main>
-<h2>Transactions</h2>
+
+<script src="~/js/wallet.js"></script>
+

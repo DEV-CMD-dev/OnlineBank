@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using OnlineBank.Data.Interfaces;
+using OnlineBank.Src.Interfaces;
 
 namespace OnlineBank.Controllers
 {

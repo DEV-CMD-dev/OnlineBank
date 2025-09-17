@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OnlineBank.Data.Interfaces;
+using OnlineBank.Src.Interfaces;
 
 namespace OnlineBank.Controllers
 {

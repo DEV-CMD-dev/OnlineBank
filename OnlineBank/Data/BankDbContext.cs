@@ -1,6 +1,6 @@
 ﻿using OnlineBank.Data.Entities;
 using Microsoft.EntityFrameworkCore;
-using OnlineBank.Data.Classes;
+using OnlineBank.Src.Classes;
 
 namespace OnlineBank.Data
 {

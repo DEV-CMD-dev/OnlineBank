@@ -1,4 +1,4 @@
-﻿namespace OnlineBank.Src.Enums
+﻿namespace OnlineBank.Data.Enums
 {
     public enum TransactionType
     {

@@ -1,6 +1,6 @@
 ﻿using OnlineBank.Data.Entities;
 
-namespace OnlineBank.Src.Classes
+namespace OnlineBank.Data.Classes
 {
     public class WalletViewModel
     {

@@ -1,6 +1,6 @@
 ﻿using OnlineBank.Data;
 using OnlineBank.Data.Entities;
-using OnlineBank.Src.Interfaces;
+using OnlineBank.Data.Interfaces;
 
 public class UserService : IUserService
 {

@@ -1,5 +1,5 @@
 ﻿using OnlineBank.Data;
-using OnlineBank.Src.Interfaces;
+using OnlineBank.Data.Interfaces;
 
 public class CardService : ICardService
 {

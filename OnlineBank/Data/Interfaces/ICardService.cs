@@ -1,4 +1,4 @@
-﻿namespace OnlineBank.Src.Interfaces
+﻿namespace OnlineBank.Data.Interfaces
 {
     public interface ICardService
     {

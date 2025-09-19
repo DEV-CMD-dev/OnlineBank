@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace OnlineBank.Src.Structs
+namespace OnlineBank.Data.Structs
 {
     public readonly struct CardCVV
     {

@@ -1,4 +1,4 @@
-﻿namespace OnlineBank.Data.Classes
+﻿namespace OnlineBank.Src.Classes
 {
     public class PayCardViewModel
     {

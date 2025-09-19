@@ -1,6 +1,6 @@
 ﻿using OnlineBank.Data.Entities;
-using OnlineBank.Data.Enums;
-using OnlineBank.Data.Structs;
+using OnlineBank.Src.Enums;
+using OnlineBank.Src.Structs;
 
 public class Card
 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using OnlineBank.Data.Structs;
+using OnlineBank.Src.Structs;
 
-namespace OnlineBank.Data.Classes
+namespace OnlineBank.Src.Classes
 {
     public class CardCVVConverter : ValueConverter<CardCVV, string>
     {

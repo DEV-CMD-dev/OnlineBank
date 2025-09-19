@@ -1,4 +1,4 @@
-﻿namespace OnlineBank.Data.Enums
+﻿namespace OnlineBank.Src.Enums
 {
     public enum TransactionStatus
     {

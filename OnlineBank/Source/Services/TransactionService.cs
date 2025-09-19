@@ -1,7 +1,7 @@
 ﻿using OnlineBank.Data;
 using OnlineBank.Data.Entities;
-using OnlineBank.Data.Enums;
-using OnlineBank.Data.Interfaces;
+using OnlineBank.Src.Enums;
+using OnlineBank.Src.Interfaces;
 
 public class TransactionService : ITransactionService
 {

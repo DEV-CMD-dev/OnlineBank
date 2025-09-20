@@ -18,7 +18,7 @@ namespace OnlineBank.Data.Entities
         public string Password { get; set; }
         [Required]
         public string Address { get; set; }
-        public DateOnly CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
 
         public ICollection<Card> Cards { get; set; }
     }

@@ -12,8 +12,8 @@ using OnlineBank.Data;
 namespace OnlineBank.Migrations
 {
     [DbContext(typeof(BankDbContext))]
-    [Migration("20250903155151_initial")]
-    partial class Initial
+    [Migration("20250919175642_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -49,11 +49,11 @@ namespace OnlineBank.Migrations
                     b.Property<int>("CardType")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("CreatedAt")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateOnly>("ExpirationDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("ExpirationDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsBlocked")
                         .HasColumnType("bit");
@@ -80,8 +80,8 @@ namespace OnlineBank.Migrations
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<DateOnly>("CreatedAt")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -120,8 +120,8 @@ namespace OnlineBank.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateOnly>("CreatedAt")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()

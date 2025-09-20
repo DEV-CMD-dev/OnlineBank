@@ -49,7 +49,7 @@ public class UserController : BaseController
             Password = password,
             Phone = phone,
             Address = address,
-            CreatedAt = DateOnly.FromDateTime(DateTime.Now),
+            CreatedAt = DateTime.Now,
             Cards = new List<Card>()
         };
 

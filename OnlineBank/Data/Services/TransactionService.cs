@@ -36,7 +36,7 @@ public class TransactionService : ITransactionService
             ToCardId = toCardId,
             Amount = amount,
             Status = TransactionStatus.Successful,
-            CreatedAt = DateOnly.FromDateTime(DateTime.Now),
+            CreatedAt = DateTime.Now,
             Description = description
         };
 

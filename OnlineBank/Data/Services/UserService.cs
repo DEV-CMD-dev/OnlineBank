@@ -24,7 +24,7 @@ public class UserService : IUserService
 
     public void CreateUser(User user)
     {
-        user.CreatedAt = DateOnly.FromDateTime(DateTime.Now);
+        user.CreatedAt = DateTime.Now;
         _db.Users.Add(user);
         _db.SaveChanges();
     }

@@ -15,7 +15,7 @@ public class CardService : ICardService
 
     public void AddCard(Card card)
     {
-        card.CreatedAt = DateOnly.FromDateTime(DateTime.Now);
+        card.CreatedAt = DateTime.Now;
         card.Balance = 0;
         card.IsBlocked = false;
         _db.Cards.Add(card);

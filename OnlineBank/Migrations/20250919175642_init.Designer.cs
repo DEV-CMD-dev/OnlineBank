@@ -13,7 +13,7 @@ namespace OnlineBank.Migrations
 {
     [DbContext(typeof(BankDbContext))]
     [Migration("20250919175642_init")]
-    partial class init
+    partial class Initialization
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

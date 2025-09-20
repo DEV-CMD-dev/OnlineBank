@@ -1,4 +1,4 @@
-﻿using OnlineBank.Data.Enums;
+﻿using OnlineBank.Source.Enums;
 
 namespace OnlineBank.Data.Entities
 {

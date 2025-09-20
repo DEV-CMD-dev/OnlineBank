@@ -1,6 +1,6 @@
 ﻿using OnlineBank.Data.Entities;
 using Microsoft.EntityFrameworkCore;
-using OnlineBank.Data.Classes;
+using OnlineBank.Source.Classes;
 
 namespace OnlineBank.Data
 {
@@ -27,6 +27,13 @@ namespace OnlineBank.Data
                 entity.Property(e => e.CVV)
                     .HasConversion(new CardCVVConverter())
                     .HasMaxLength(3)
+                    .IsRequired();
+            });
+
+            modelBuilder.Entity<Card>(entity =>
+            {
+                entity.Property(e => e.CardNumber)
+                    .HasMaxLength(16)
                     .IsRequired();
             });
 

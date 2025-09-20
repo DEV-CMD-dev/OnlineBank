@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using OnlineBank.Data.Classes;
-using OnlineBank.Data.Interfaces;
 using OnlineBank.Models;
+using OnlineBank.Source.Classes;
+using OnlineBank.Source.Interfaces;
 using System.Diagnostics;
 
 namespace OnlineBank.Controllers

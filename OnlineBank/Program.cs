@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Cors.Infrastructure;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using OnlineBank.Data;
-using OnlineBank.Data.Enums;
-using OnlineBank.Data.Interfaces;
-using OnlineBank.Data.Structs;
+using OnlineBank.Source.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

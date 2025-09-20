@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OnlineBank.Controllers;
-using OnlineBank.Data.Classes;
+using OnlineBank.Source.Classes;
 using OnlineBank.Data.Entities;
-using OnlineBank.Data.Interfaces;
+using OnlineBank.Source.Interfaces;
 
 public class UserController : BaseController
 {

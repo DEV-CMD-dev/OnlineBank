@@ -47,7 +47,6 @@ namespace OnlineBank.Controllers
         }
 
         [HttpPost]
-        [HttpPost]
         public IActionResult AddCard(int UserId, string CardNumber, CardType CardType, DateTime ExpirationDate, string CVV)
         {
             try

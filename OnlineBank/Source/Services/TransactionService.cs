@@ -1,4 +1,5 @@
-﻿using OnlineBank.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using OnlineBank.Data;
 using OnlineBank.Data.Entities;
 using OnlineBank.Source.Enums;
 using OnlineBank.Source.Interfaces;
@@ -50,6 +51,23 @@ public class TransactionService : ITransactionService
 
         return _db.Transactions
             .Where(t => t.FromCardId == cardId || t.ToCardId == cardId)
+            .Include(t => t.FromCard)
+            .Include(t => t.ToCard)
             .ToList();
     }
+
+    public List<Transaction> GetAllTransactionsForUser(int userId)
+    {
+        var userCards = _cardService.GetUserCards(userId).Select(c => c.Id).ToList();
+
+        var transactions = _db.Transactions
+                              .Where(t => userCards.Contains(t.FromCardId) || userCards.Contains(t.ToCardId))
+                              .Include(t => t.FromCard)
+                              .Include(t => t.ToCard)
+                              .ToList();
+
+        return transactions;
+    }
+
+
 }

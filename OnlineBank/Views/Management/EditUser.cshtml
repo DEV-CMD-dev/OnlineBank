@@ -1,0 +1,120 @@
+﻿@using OnlineBank.Data.Entities
+@using OnlineBank.Source.Enums
+@model User
+
+@{
+    ViewData["Title"] = "Edit User";
+}
+
+<link rel="stylesheet" href="~/css/management.css" />
+
+<main class="management-container">
+    <h2>Edit User - @Model.FullName</h2>
+    <p><strong>Role:</strong> @Model.Role</p>
+
+    <form asp-action="EditUser" method="post">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="form-group">
+            <label asp-for="FullName"></label>
+            <input asp-for="FullName" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Phone"></label>
+            <input asp-for="Phone" class="form-control" />
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Address"></label>
+            <input asp-for="Address" class="form-control" />
+        </div>
+
+        <button type="submit" class="btn save">Save</button>
+    </form>
+
+    <hr />
+
+    <h3>Add New Card</h3>
+    <form asp-action="AddCard" method="post">
+        <input type="hidden" name="UserId" value="@Model.Id" />
+        <div class="form-group">
+            <label>Card Number</label>
+            <input type="text" name="CardNumber" class="form-control" required minlength="16" maxlength="16" pattern="\d{16}" title="Card number must be 16 digits" />
+        </div>
+        <div class="form-group">
+            <label>Card Type</label>
+            <select name="CardType" class="form-control">
+                <option value="Visa">Visa</option>
+                <option value="MasterCard">MasterCard</option>
+                <option value="Amex">Amex</option>
+                <option value="Maestro">Maestro</option>
+                <option value="UnionPay">UnionPay</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Expiration Date</label>
+            <input type="date" name="ExpirationDate" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label>CVV</label>
+            <input type="text" name="CVV" class="form-control" required minlength="3" maxlength="3" pattern="\d{3}" title="CVV must be 3 digits" />
+        </div>
+        <button type="submit" class="btn save">Add Card</button>
+        @if (TempData["CardError"] != null)
+        {
+            <p style="color:red">@TempData["CardError"]</p>
+        }
+    </form>
+
+    <hr />
+
+    <h3>User Cards</h3>
+    @if (Model.Cards != null && Model.Cards.Any())
+    {
+        <table class="cards-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Card Type</th>
+                    <th>Number</th>
+                    <th>Balance</th>
+                    <th>Expiration</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int index = 1;
+                }
+                @foreach (var card in Model.Cards)
+                {
+                    <tr>
+                        <td>@index</td>
+                        <td>@card.CardType</td>
+                        <td>@card.CardNumber</td>
+                        <td>$@card.Balance</td>
+                        <td>@card.ExpirationDate.ToShortDateString()</td>
+                        <td>@(card.IsBlocked ? "Blocked" : "Active")</td>
+                        <td>
+                            @if (card.IsBlocked)
+                            {
+                                <a asp-controller="Management" asp-action="UnblockCard" asp-route-id="@card.Id" class="btn unblock">Unblock</a>
+                            }
+                            else
+                            {
+                                <a asp-controller="Management" asp-action="BlockCard" asp-route-id="@card.Id" class="btn block">Block</a>
+                            }
+                        </td>
+                    </tr>
+                    index++;
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No cards available for this user.</p>
+    }
+</main>

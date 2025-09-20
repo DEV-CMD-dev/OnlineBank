@@ -7,11 +7,13 @@ using OnlineBank.Source.Interfaces;
 public class UserController : BaseController
 {
     private readonly ICardService _cardService;
+    private readonly ITransactionService _transactionService;
 
-    public UserController(IUserService userService, ICardService cardService)
+    public UserController(IUserService userService, ICardService cardService, ITransactionService transactionService)
         : base(userService)
     {
         _cardService = cardService;
+        _transactionService = transactionService;
     }
 
     [HttpGet]
@@ -118,4 +120,68 @@ public class UserController : BaseController
         var user = _userService.GetUser(userId.Value);
         return View(user);
     }
+
+    [HttpPost]
+    public IActionResult Transfer(int senderCardId, string recipientCardNumber, decimal amount)
+    {
+        var userId = GetCurrentUserId();
+        if (userId == null) return RedirectToAction("Login");
+
+        var senderCard = _cardService.GetCard(senderCardId);
+        if (senderCard == null || senderCard.UserId != userId.Value || senderCard.IsBlocked)
+        {
+            TempData["Error"] = "Invalid sender card.";
+            return RedirectToAction("Transfer");
+        }
+
+        var recipientCard = _cardService.GetCardByNumber(recipientCardNumber);
+        if (recipientCard == null)
+        {
+            TempData["Error"] = "Recipient card not found.";
+            return RedirectToAction("Transfer");
+        }
+
+        try
+        {
+            _transactionService.CreateTransaction(senderCardId, recipientCard.Id, amount, "User Transfer");
+            TempData["Success"] = $"Transferred ${amount} to card {recipientCardNumber}.";
+        }
+        catch (Exception ex)
+        {
+            TempData["Error"] = ex.Message;
+        }
+
+        return RedirectToAction("Transfer");
+    }
+
+    [HttpGet]
+    public IActionResult Transfer()
+    {
+        var userId = GetCurrentUserId();
+        if (userId == null)
+            return RedirectToAction("Login");
+
+        var userCards = _cardService.GetUserCards(userId.Value)
+                                    .Where(c => !c.IsBlocked)
+                                    .ToList();
+
+        var allTxs = _transactionService.GetAllTransactionsForUser(userId.Value);
+
+        var recentTransactions = allTxs
+                                 .OrderByDescending(t => t.CreatedAt)
+                                 .Take(5)
+                                 .ToList();
+
+        var model = new TransferViewModel
+        {
+            UserCards = userCards,
+            RecentTransactions = recentTransactions
+        };
+
+        return View(model);
+    }
+
+
+
+
 }

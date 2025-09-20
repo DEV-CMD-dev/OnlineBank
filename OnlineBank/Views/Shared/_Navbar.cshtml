@@ -12,9 +12,19 @@
         <ul class="nav-list" id="navList">
             @if (ViewBag.CurrentUser != null)
             {
-                <li><a asp-controller="User" asp-action="Wallet">Wallet</a></li>
-                <li><a asp-controller="User" asp-action="Transactions">Transactions</a></li>
-                <li><a asp-controller="User" asp-action="Settings">Settings</a></li>
+                if (ViewBag.CurrentUser.Role == OnlineBank.Source.Enums.UserRole.Manager)
+                {
+                    <li><a asp-controller="Management" asp-action="Index">Dashboard</a></li>
+                    <li><a asp-controller="Management" asp-action="Users">Users</a></li>
+                    <li><a asp-controller="User" asp-action="Settings">Settings</a></li>
+                }
+                else
+                {
+                    <li><a asp-controller="User" asp-action="Wallet">Wallet</a></li>
+                    <li><a asp-controller="User" asp-action="Transactions">Transactions</a></li>
+                    <li><a asp-controller="User" asp-action="Transfer">Transfer</a></li>
+                    <li><a asp-controller="User" asp-action="Settings">Settings</a></li>
+                }
             }
             else
             {

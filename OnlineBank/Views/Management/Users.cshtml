@@ -1,0 +1,53 @@
+﻿@using OnlineBank.Data.Entities
+@model List<User>
+
+@{
+    ViewData["Title"] = "Users Management";
+}
+
+<link rel="stylesheet" href="~/css/management.css" />
+
+<main class="management-container">
+    <h2>Users</h2>
+
+    @if (Model != null && Model.Any())
+    {
+        <table class="users-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th>Created At</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int index = 1;
+                }
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>@index</td>
+                        <td>@user.FullName</td>
+                        <td>@user.Email</td>
+                        <td>@user.Phone</td>
+                        <td>@user.Address</td>
+                        <td>@user.CreatedAt.ToShortDateString()</td>
+                        <td>
+                            <a asp-controller="Management" asp-action="EditUser" asp-route-id="@user.Id" class="btn edit">Edit</a>
+                        </td>
+                    </tr>
+                    index++;
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No users found.</p>
+    }
+</main>

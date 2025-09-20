@@ -12,6 +12,10 @@ public class CardService : ICardService
     public Card? GetCard(int cardId) => _db.Cards.Find(cardId);
 
     public List<Card> GetUserCards(int userId) => _db.Cards.Where(c => c.UserId == userId).ToList();
+    public Card? GetCardByNumber(string cardNumber)
+    {
+        return _db.Cards.FirstOrDefault(c => c.CardNumber == cardNumber);
+    }
 
     public void AddCard(Card card)
     {

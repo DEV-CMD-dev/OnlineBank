@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using OnlineBank.Source.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace OnlineBank.Data.Entities
 {
     public class User
     {
         public int Id { get; set; }
+        public UserRole Role { get; set; } = UserRole.User;
         [Required]
         [StringLength(100)]
         public string FullName { get; set; }

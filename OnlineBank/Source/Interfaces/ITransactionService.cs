@@ -6,5 +6,6 @@ namespace OnlineBank.Source.Interfaces
     {
         public void CreateTransaction(int fromCardId, int toCardId, decimal amount, string description = "");
         public List<Transaction> GetCardTransactions(int cardId);
+        public List<Transaction> GetAllTransactionsForUser(int userId);
     }
 }

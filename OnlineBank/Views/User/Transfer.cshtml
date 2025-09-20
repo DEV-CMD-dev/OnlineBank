@@ -1,0 +1,75 @@
+﻿@using OnlineBank.Source.Classes
+@model TransferViewModel
+
+<link rel="stylesheet" href="~/css/transfer.css" />
+
+<main class="main-wallet">
+    <div class="wallet-container">
+        <h2>Transfer Money</h2>
+
+        @if (TempData["Error"] != null)
+        {
+            <p style="color:red">@TempData["Error"]</p>
+        }
+
+        @if (TempData["Success"] != null)
+        {
+            <p style="color:green">@TempData["Success"]</p>
+        }
+
+        <form asp-action="Transfer" method="post">
+            <div class="form-group">
+                <label>From Card</label>
+                <select name="senderCardId" class="form-control" required>
+                    @foreach (var card in Model.UserCards)
+                    {
+                        <option value="@card.Id">
+                            @($"{card.CardType} - {card.CardNumber.Substring(0, 4)} **** **** {card.CardNumber.Substring(12, 4)} - Balance: ${card.Balance}")
+                        </option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Recipient Card Number</label>
+                <input type="text" name="recipientCardNumber" class="form-control" required
+                       pattern="\d{16}" maxlength="16" title="Enter 16-digit card number" />
+            </div>
+
+            <div class="form-group">
+                <label>Amount</label>
+                <input type="number" name="amount" class="form-control" required min="1" step="0.01" />
+            </div>
+
+            <button type="submit" class="btn primary">Send Money</button>
+        </form>
+
+        @if (Model.RecentTransactions != null && Model.RecentTransactions.Any())
+        {
+            <h3>Recent Transactions</h3>
+            <table class="transactions-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var tx in Model.RecentTransactions)
+                    {
+                        <tr>
+                            <td>@tx.CreatedAt.ToString("g")</td>
+                            <td>@tx.FromCard.CardNumber.Substring(0, 4) **** **** @tx.FromCard.CardNumber.Substring(12, 4)</td>
+                            <td>@tx.ToCard.CardNumber.Substring(0, 4) **** **** @tx.ToCard.CardNumber.Substring(12, 4)</td>
+                            <td>$@tx.Amount</td>
+                            <td>@tx.Status</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+</main>

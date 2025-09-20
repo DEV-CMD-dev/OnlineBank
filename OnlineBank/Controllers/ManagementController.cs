@@ -10,14 +10,25 @@ namespace OnlineBank.Controllers
     {
         private readonly ICardService _cardService;
 
-        public ManagementController(IUserService userService, ICardService cardService) : base(userService)
+        public ManagementController(IUserService userService, ICardService cardService)
+            : base(userService)
         {
             _cardService = cardService;
         }
 
-        public IActionResult Users()
+        public IActionResult Users(string search)
         {
             var users = _userService.GetAllUsers();
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                users = users
+                    .Where(u => u.FullName.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                                u.Email.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                                u.Phone.Contains(search, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+
             return View(users);
         }
 
@@ -57,7 +68,10 @@ namespace OnlineBank.Controllers
                     CardNumber = CardNumber,
                     CardType = CardType,
                     ExpirationDate = ExpirationDate,
-                    CVV = new CardCVV(CVV)
+                    CVV = new CardCVV(CVV),
+                    Balance = 0,
+                    IsBlocked = false,
+                    CreatedAt = DateTime.Now
                 };
 
                 _cardService.AddCard(card);
@@ -69,8 +83,6 @@ namespace OnlineBank.Controllers
                 return RedirectToAction("EditUser", new { id = UserId });
             }
         }
-
-
 
         public IActionResult BlockCard(int id)
         {
